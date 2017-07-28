@@ -1,0 +1,10 @@
+x. How to start a mmfs use client?
+A: ps=32768 namespace='default' debug=1 uris='STL://localhost:26379' LD_LIBRARY_PATH=build:lib build/mmfs_v1 /mnt/mmfs -o allow_other -o use_ino -o entry_timeout=1 -o attr_timeout=1 -o default_permissions -d -f | tee /tmp/mmfs.log
+A: logdir=log noatime=1 uris='STL://127.0.0.1:26379' debug=000 namespace=default ps=4096 LD_LIBRARY_PATH=build:lib build/mmfs_v1 /mnt/mmfs -o rw -o allow_other -o use_ino -o entry_timeout=0 -o attr_timeout=0 -o default_permissions -d -f > /tmp/mmfs.log 2>&1 &
+
+y. How to use valgrind to check mmfs client?
+A: ps=32768 namespace='default' debug=1 uris='STL://localhost:26379' LD_LIBRARY_PATH=build:lib valgrind --leak-check=full --show-leak-kinds=all build/mmfs_v1 /mnt/mmfs -o allow_other -o use_ino -o entry_timeout=1 -o attr_timeout=1 -d -f | tee /tmp/mmfs.log
+A: logdir=log noatime=1 uris='STL://127.0.0.1:26379' debug=000 namespace=default ps=4096 LD_LIBRARY_PATH=build:lib valgrind --leak-check=full --show-leak-kinds=all build/mmfs_v1 /mnt/mmfs -o rw -o allow_other -o use_ino -o entry_timeout=0 -o attr_timeout=0 -o default_permissions -d -f > /tmp/mmfs.log 2>&1 &
+
+z. How to make a new file system?
+A: uris='STL://127.0.0.1:26379' debug=11 namespace=default ps=32768 /home/macan/workspace/dservice/build/mkfs.mmfs -S 10000000000 -I 1000000000

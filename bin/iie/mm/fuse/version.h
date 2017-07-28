@@ -1,0 +1,3 @@
+#define MMFS_GIT_SHA1 "13164938"
+#define MMFS_GIT_DIRTY "24"
+#define MMFS_BUILD_ID "macan-ThinkPad-T420-1446203096"
