@@ -1,5 +1,8 @@
 package iie.mm.asr;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -40,7 +43,9 @@ public class AsrHealth implements Runnable{
 				out.flush();
 				out.close();
 				
-				Thread.sleep(1*60*1000);
+				printResponse(conn);
+				
+				Thread.sleep(gconf.healthTime*1000);
 				if(!isOK){
 					DataSyncPut.asrHealth = false;
 					System.out.println(Thread.currentThread().getName() + gconf.getTime() + " [ERR] ASR NOT OK");
@@ -53,5 +58,24 @@ public class AsrHealth implements Runnable{
 			e.printStackTrace();
 		}
 	}
+	
+	
+    private static String printResponse(HttpURLConnection conn) throws Exception {
+        if (conn.getResponseCode() != 200) {
+            // request error
+            return "";
+        }
+        InputStream is = conn.getInputStream();
+        BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+        String line;
+        StringBuffer response = new StringBuffer();
+        while ((line = rd.readLine()) != null) {
+            response.append(line);
+            response.append('\r');
+        }
+        rd.close();
+        
+        return response.toString();
+    }
 
 }

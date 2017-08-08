@@ -37,6 +37,7 @@ public class GlobalConfig {
 
 	public final ClientAPI scp = new ClientAPI();
 	public final ClientAPI dcp = new ClientAPI();
+	public int healthTime;
 
 	public GlobalConfig() {
 	}
@@ -61,6 +62,7 @@ public class GlobalConfig {
 				+ "getUrl=" 					+ getUrl              		     	+ "\n"
 				+ "callback=" 					+ callback              	     	+ "\n"
 				+ "httpprot=" 					+ httpprot              	     	+ "\n"
+				+ "healthTime=" 				+ healthTime              	     	+ "\n"
 				+ "]";
 	}
 	

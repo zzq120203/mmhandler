@@ -91,7 +91,7 @@ public class DataSyncPut {
 			file = new File("get/"+g_id+".mp4");
         if (file.exists() && file.isFile()) {
             if(file.delete())
-            	System.out.println("[DEL FILE] " + file.getPath());
+            	System.out.println(Thread.currentThread().getName() + gconf.getTime() + " [DEL FILE] " + file.getPath());
         }
 		
 	}

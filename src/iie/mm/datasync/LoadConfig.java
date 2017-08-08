@@ -78,6 +78,7 @@ public class LoadConfig {
 				System.out.println("-au         : apiUrl ");
 				System.out.println("-gu         : get Url  /get/");
 				System.out.println("-cb         : callback url");
+				System.out.println("-ht         : Health Time");
 
 				System.exit(0);
 			}
@@ -217,6 +218,13 @@ public class LoadConfig {
 					System.exit(0);
 				}
 				gconf.httpprot = Integer.parseInt(o.opt);
+			}
+			if (o.flag.equals("-ht")) {
+				if (o.opt == null) {
+					System.out.println("-ht time(s)");
+					System.exit(0);
+				}
+				gconf.healthTime = Integer.parseInt(o.opt);
 			}
 
 		}
