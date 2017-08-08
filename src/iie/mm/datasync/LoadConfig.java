@@ -75,6 +75,9 @@ public class LoadConfig {
 				System.out.println("-mttc       : maxTransmitThreadCount number , 10");
 				System.out.println("-mbqc       : maxBlockingQueueCapacity number , 100");
 				System.out.println("-synct      : sync Time (S) , 60");
+				System.out.println("-au         : apiUrl ");
+				System.out.println("-gu         : get Url  /get/");
+				System.out.println("-cb         : callback url");
 
 				System.exit(0);
 			}
@@ -183,6 +186,37 @@ public class LoadConfig {
 					System.exit(0);
 				}
 				gconf.setPath = o.opt;
+			}
+			
+			if (o.flag.equals("-au")) {
+				if (o.opt == null) {
+					System.out.println("-au url");
+					System.exit(0);
+				}
+				gconf.apiUrl = o.opt;
+			}
+			
+			if (o.flag.equals("-gu")) {
+				if (o.opt == null) {
+					System.out.println("-gu url");
+					System.exit(0);
+				}
+				gconf.getUrl = o.opt;
+			}
+			
+			if (o.flag.equals("-cb")) {
+				if (o.opt == null) {
+					System.out.println("-cb url");
+					System.exit(0);
+				}
+				gconf.callback = o.opt;
+			}
+			if (o.flag.equals("-prot")) {
+				if (o.opt == null) {
+					System.out.println("-prot prot");
+					System.exit(0);
+				}
+				gconf.httpprot = Integer.parseInt(o.opt);
 			}
 
 		}

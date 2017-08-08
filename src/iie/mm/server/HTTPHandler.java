@@ -8,6 +8,9 @@ import iie.mm.server.StorePhoto.SetStats;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.handler.AbstractHandler;
 import org.eclipse.jetty.server.handler.ResourceHandler;
+
+import com.alibaba.fastjson.JSON;
+
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.exceptions.JedisException;
 
@@ -1455,6 +1458,8 @@ public class HTTPHandler extends AbstractHandler {
             doPut(target, baseRequest, request, response);
         } else if (target.equalsIgnoreCase("/play")) {
             doPlay(target, baseRequest, request, response);
+        } else if (target.equalsIgnoreCase("/lines")) {
+            doLines(target, baseRequest, request, response);
         } else if (target.equalsIgnoreCase("/home")) {
             doHome(target, baseRequest, request, response);
         } else if (target.equalsIgnoreCase("/info")) {
@@ -1746,5 +1751,29 @@ public class HTTPHandler extends AbstractHandler {
 			response.getWriter().flush();
 		}}
     }
+    
+	private void doLines(String target, Request baseRequest, HttpServletRequest request, HttpServletResponse response)
+			throws IOException {
+		
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		String imgStr =  PhotoServer.getLCount("mm.imgNum", conf);
+		String audStr =  PhotoServer.getLCount("mm.audNum", conf);
+		String vidStr =  PhotoServer.getLCount("mm.vidNum", conf);
+		Map<String,Object> results = new HashMap<String,Object>();
+		results.put("imgStr", imgStr);
+		results.put("audStr", audStr);
+		results.put("vidStr", vidStr);
+		results.put("status", "success");
+		
+		String resultJson = JSON.toJSONString(results);
+		response.setCharacterEncoding("UTF-8");  
+	    response.setContentType("text/json");  
+		PrintWriter out = response.getWriter();  
+//		System.out.println(resultJson);
+	    out.println(resultJson);  
+	    out.flush();  
+	    out.close();
+		
+	}
 
 }

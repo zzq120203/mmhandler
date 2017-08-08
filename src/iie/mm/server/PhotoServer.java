@@ -15,6 +15,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.Timer;
 import java.util.concurrent.BlockingQueue;
@@ -432,6 +433,50 @@ public class PhotoServer {
             }
         }
     }
+
+	public static String getLCount(String key, ServerConf conf) {
+		StringBuffer str = new StringBuffer();
+		Jedis jedis = StorePhoto.getRpL1(conf).getResource();
+		try {
+			if (jedis != null) {
+				Map<String, String> map = jedis.hgetAll(key);
+				if (map != null) {
+					str.append("[");
+					for (Entry<String, String> e : map.entrySet()) {
+						str.append("[").append(e.getKey()).append(",").append(e.getValue()).append("],");
+					}
+					str.setCharAt(str.length() - 1, ']');
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			StorePhoto.getRpL1(conf).putInstance(jedis);
+		}
+		return str.toString();
+	}
+
+	public static void mmCount(ServerConf conf) {
+		Jedis jedis = StorePhoto.getRpL1(conf).getResource();
+		try {
+			if (jedis != null) {
+				long time = System.currentTimeMillis();
+				
+				
+				
+				
+				
+				
+				
+				
+				
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			StorePhoto.getRpL1(conf).putInstance(jedis);
+		}
+	}
 
 }
 

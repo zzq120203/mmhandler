@@ -2,7 +2,6 @@ package iie.mm.client;
 
 import iie.mm.client.PhotoClient.SocketHashEntry;
 import iie.mm.common.MMConf;
-import iie.mm.common.RedisPoolSelector.RedisConnection;
 import redis.clients.jedis.HostAndPort;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.Tuple;
@@ -16,9 +15,10 @@ import java.security.NoSuchAlgorithmException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
-import net.sf.json.JSONObject;
 
 import javax.activation.MimetypesFileTypeMap;
+
+import com.alibaba.fastjson.JSONObject;
 
 public class ClientAPI {
 	private PhotoClient pc;
@@ -28,6 +28,8 @@ public class ClientAPI {
 	private ConcurrentHashMap<String, SocketHashEntry> socketHash;
 	private final Timer timer = new Timer("ActiveMMSRefresher");
 	//
+	private String nameBase;
+	
 	public ClientAPI(ClientConf conf) {
 		pc = new PhotoClient(conf);
 	}
@@ -759,58 +761,27 @@ public class ClientAPI {
 	 * @throws Exception
 	 */
 	private String uploadFile(String jsonStr, File file) throws Exception {
-		String key = null;
-		String fType = null;
-		String g_id = null;
-		JSONObject jsono = null;
-		String info = null;
-		String set = null;
-		String md5 = getMd5(file);
-		if (jsonStr == null) {
-			fType = new MimetypesFileTypeMap().getContentType(file).charAt(0) + "";
-			g_id = md5;
-		} else {
-			jsono = JSONObject.fromObject(jsonStr);
-			if (jsono.containsKey("type")) {
-				fType = jsono.get("type").toString();
-				fType = pc.getConf().getFileTypeMap().get(fType);
-			}
-			if (jsono.containsKey("g_id"))
-				g_id = jsono.get("g_id").toString();
-		}
-		if (g_id.contains("@")){
-			key = g_id;
-			String[] gid = g_id.split("@");
-			set = gid[0];
-			g_id = gid[1];
-		} else {
-			long time = System.currentTimeMillis();
-			// key = nameBase + (time - time % 3600000) / 1000 + "@" + key;
-			set = fType + (time - time % 3600000) / 1000;
-			key = set + "@" + g_id;
-		}
-        RedisConnection rc = null;
-        try {
-            rc = pc.getRPS().getL2(set, true);
-            Jedis jedis = rc.jedis;
-            if (jedis != null) {
-                info = jedis.hget(set, md5);
-                if (info != null){
-                	jedis.hset(set, g_id, info);
-            		if (pc.getConf().isDataSync())
-            			dataSync(key, g_id, UpType.set);
-                }else {
-                	info = uploadFile(file, key, g_id);
-                	if (info != null && g_id != md5)
-                		jedis.hset(set, md5, info);
-                }
-            }
-        } catch (Exception e) {
-        	e.printStackTrace();
-		} finally {
-			pc.getRPS().putL2(rc);
-		}
-		
+     String key = null;
+     String fType = null;
+     String g_id = null;
+     if (jsonStr == null) {
+       fType = new MimetypesFileTypeMap().getContentType(file).charAt(0)+"";
+     } else {
+       JSONObject jsono = JSONObject.parseObject(jsonStr);
+       fType = jsono.get("type").toString();
+       fType = (String)pc.getConf().getFileTypeMap().get(fType);
+       g_id = jsono.get("g_id").toString();
+     }
+     if (g_id.contains("@")) {
+       key = g_id;
+       g_id = g_id.split("@")[1];
+     } else {
+       key = getMd5(file);
+       long time = System.currentTimeMillis();
+       
+       key = fType + (time - time % 3600000L) / 1000L + "@" + key;
+     }
+     String info = uploadFile(file, key, g_id);
 		if (info == null)
 			key = null;
 		return key;

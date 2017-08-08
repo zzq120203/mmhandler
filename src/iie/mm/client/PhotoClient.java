@@ -22,8 +22,8 @@ import java.util.concurrent.atomic.AtomicLong;
 
 public class PhotoClient {
     private ClientConf conf;
-    private static RedisPool rpL1;
-    private static RedisPoolSelector rps;
+    private RedisPool rpL1;
+    private RedisPoolSelector rps;
     private static AtomicInteger curgrpno = new AtomicInteger(0);
     private static AtomicInteger curseqno = new AtomicInteger(0);
     private Map<Integer, XRefGroup> wmap = new ConcurrentHashMap<Integer, XRefGroup>();

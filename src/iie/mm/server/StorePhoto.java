@@ -408,13 +408,13 @@ public class StorePhoto {
                     for (int i = 0; i <= vlen; i++){
                         thInfo += thInfos[i] +"@";
                     }
-                    thInfo.substring(0, thInfo.length() - 1);
+                    thInfo = thInfo.substring(0, thInfo.length() - 1);
                     //thInfo = thInfos[0] + "@" + thInfos[1] + "@" + thInfos[2] + "@" + thInfos[3] + "@" + thInfos[4] + "@" + thInfos[5] + "@" + thInfos[6] + "@" + thInfos[7] + "@" + thInfos[8] + "@" + thInfos[9];
                 } else {
                     for (int i = 0; i < vlen; i++){
                         thInfo += thInfos[i] +"@";
                     }
-                    thInfo.substring(0, thInfo.length() - 1);
+                    thInfo = thInfo.substring(0, thInfo.length() - 1);
                     //thInfo = thInfos[0] + "@" + thInfos[1] + "@" + thInfos[2] + "@" + thInfos[3] + "@" + thInfos[4] + "@" + thInfos[5] + "@" + thInfos[6] + "@" + thInfos[7] + "@" + thInfos[8];
                 }
             }else{
@@ -423,13 +423,13 @@ public class StorePhoto {
                     for (int i = 0; i <= vlen; i++){
                         thInfo += thInfos[i] +"@";
                     }
-                    thInfo.substring(0, thInfo.length() - 1);
+                    thInfo = thInfo.substring(0, thInfo.length() - 1);
                     //thInfo = thInfos[0] + "@" + thInfos[1] + "@" + thInfos[2] + "@" + thInfos[3] + "@" + thInfos[4] + "@" + thInfos[5] + "@" + thInfos[6] + "@" + thInfos[7];
                 } else {
                     for (int i = 0; i < vlen; i++){
                         thInfo += thInfos[i] +"@";
                     }
-                    thInfo.substring(0, thInfo.length() - 1);
+                    thInfo = thInfo.substring(0, thInfo.length() - 1);
                     //thInfo = thInfos[0] + "@" + thInfos[1] + "@" + thInfos[2] + "@" + thInfos[3] + "@" + thInfos[4] + "@" + thInfos[5] + "@" + thInfos[6];
                 }
             }

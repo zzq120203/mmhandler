@@ -12,6 +12,12 @@ public class GlobalConfig {
 		return config;
 	}
 
+	public String apiUrl;
+	public String getUrl;
+	public String callback;
+	public int httpprot;
+	
+	
 	public int maxBlockQueue = 10;
 	public int maxTransmitThreadCount = 10;
 	public int maxBlockingQueueCapacity = 100;
@@ -51,6 +57,10 @@ public class GlobalConfig {
 				+ "mppUser=" 					+ mppUser                    		+ "\n"
 				+ "mppPwd=" 					+ mppPwd                    		+ "\n"
 				+ "startUpdateMpp=" 			+ startUpdateMpp                   	+ "\n"
+				+ "apiUrl=" 					+ apiUrl          		         	+ "\n"
+				+ "getUrl=" 					+ getUrl              		     	+ "\n"
+				+ "callback=" 					+ callback              	     	+ "\n"
+				+ "httpprot=" 					+ httpprot              	     	+ "\n"
 				+ "]";
 	}
 	
